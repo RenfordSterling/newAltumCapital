@@ -438,12 +438,10 @@
     <div class="w-full max-w-6xl mx-auto px-4">
       <!-- Título y badge -->
       <div class="text-center mb-8 px-4">
-        <h1 class="hero-title mb-4
-          text-4xl sm:text-5xl md:text-6xl
-          font-extrabold text-white leading-tight max-w-xl mx-auto">
+        <h1 class="hero-title mb-4">
           Convirtiendo las presiones inflacionarias en crecimiento sostenible
         </h1>
-        <div class="inline-flex items-center px-4 py-2 bg-blue-500/20 border border-blue-400 rounded-full text-blue-300 text-sm font-medium animate-pulse">
+        <div class="inline-flex items-center px-4 py-2 bg-blue-500/20 border border-blue-400 rounded-full text-blue-300 text-sm font-medium animate-pulse mx-auto max-w-max">
           <svg class="w-4 h-4 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>
@@ -451,10 +449,10 @@
         </div>
       </div>
 
-      <!-- Tarjetas responsive -->
-      <div class="flex flex-col md:flex-row gap-4 mb-8 px-4">
-        <!-- Tarjeta 1 -->
-        <div class="flex-1 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:transform hover:-translate-y-1">
+      <!-- Tarjetas en layout triángulo -->
+      <div class="relative w-full max-w-6xl mx-auto px-4" style="height: 360px; max-width: 100%; min-height: 320px;">
+        <!-- Tarjeta 1 - Izquierda arriba -->
+        <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:-translate-y-1 absolute top-0 left-0 w-[48%] md:w-[30%]">
           <div class="flex items-center mb-3">
             <div class="bg-blue-500/10 p-2 rounded-lg mr-3">
               <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -472,8 +470,8 @@
           <p class="text-white/80 text-sm">Interfaz completamente renovada con análisis avanzado y herramientas profesionales</p>
         </div>
 
-        <!-- Tarjeta 2 -->
-        <div class="flex-1 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:transform hover:-translate-y-1">
+        <!-- Tarjeta 2 - Derecha arriba -->
+        <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:-translate-y-1 absolute top-0 right-0 w-[48%] md:w-[30%]">
           <div class="flex items-center mb-3">
             <div class="bg-blue-500/10 p-2 rounded-lg mr-3">
               <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -491,8 +489,8 @@
           <p class="text-white/80 text-sm">Acceso a tus inversiones desde cualquier lugar con notificaciones en tiempo real</p>
         </div>
 
-        <!-- Tarjeta 3 (visible en móvil también) -->
-        <div class="flex-1 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:transform hover:-translate-y-1 block">
+        <!-- Tarjeta 3 - Centro abajo -->
+        <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:-translate-y-1 absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[95%] md:w-[35%]">
           <div class="flex items-center mb-3">
             <div class="bg-blue-500/10 p-2 rounded-lg mr-3">
               <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -512,8 +510,8 @@
       </div>
 
       <!-- CTA -->
-      <div class="text-center">
-        <a href="#" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 text-white rounded-lg text-base font-medium transition-all duration-300 hover:shadow-lg">
+      <div class="text-center mt-12">
+        <a href="#" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 text-white rounded-lg text-base font-medium transition-all duration-300 hover:shadow-lg mx-auto max-w-max">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
           </svg>
@@ -527,18 +525,27 @@
   <div class="absolute bottom-4 left-0 right-0 text-center">
     <p class="text-xs text-white/40">v0.8.5 | Build: 25052025-01</p>
   </div>
-
-  <style>
-    /* Limitar título a máximo 3 líneas, ocultar lo que sobrepasa */
-    .hero-title {
-      display: -webkit-box;
-      -webkit-line-clamp: 3; /* Cambia a 2 para máximo 2 líneas */
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-align: center;
-    }
-  </style>
 </section>
+
+<style>
+.hero-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* máximo 3 líneas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: center;
+  max-width: 90vw; /* hasta 90% ancho viewport */
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(2rem, 5vw, 3.5rem); /* tamaño responsivo */
+  line-height: 1.2;
+  font-weight: 800;
+  color: white;
+  word-break: break-word;
+  white-space: normal;
+}
+</style>
+
 
 
     <!-- Contenido principal -->
