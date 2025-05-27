@@ -437,13 +437,12 @@
   <div class="hero-content relative z-10 flex items-center justify-center h-full py-12 md:py-0">
     <div class="w-full max-w-6xl mx-auto px-4">
       
-      <!-- Título optimizado para 2 líneas en móvil con solución agresiva -->
-      <div class="text-center mb-8 px-2 sm:px-4">
-        <h1 class="hero-title text-white font-extrabold text-3xl sm:text-4xl md:text-5xl leading-tight max-w-3xl mx-auto">
-          <div class="title-container">
-            <div class="title-line-1">Convirtiendo las Presiones Inflacionarias</div>
-            <div class="title-line-2">en Crecimiento Sostenible</div>
-          </div>
+      <!-- Título simplificado para 2 líneas -->
+      <div class="text-center mb-8">
+        <h1 class="text-white font-extrabold text-3xl sm:text-4xl md:text-5xl leading-tight">
+          Convirtiendo las Presiones Inflacionarias
+          <br class="block" />
+          en Crecimiento Sostenible
         </h1>
 
         <div class="inline-flex items-center px-4 py-2 bg-blue-500/20 border border-blue-400 rounded-full text-blue-300 text-sm font-medium animate-pulse mt-4 mx-auto max-w-max">
@@ -556,52 +555,6 @@
       min-height: 85vh;
     }
   }
-  
-  /* Solución agresiva para el título en móviles */
-  .title-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .title-line-1, .title-line-2 {
-    display: block;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  /* Ajustes específicos para móviles */
-  @media (max-width: 480px) {
-    .hero-title {
-      font-size: 1.75rem;
-      line-height: 1.3;
-      max-width: 100%;
-      padding: 0;
-    }
-    
-    .title-line-1, .title-line-2 {
-      padding: 0 5px;
-      max-width: 100%;
-      white-space: normal;
-      display: block;
-      line-height: 1.2;
-    }
-    
-    .title-line-1 {
-      margin-bottom: 5px;
-    }
-  }
-  
-  /* Ajustes para pantallas muy pequeñas */
-  @media (max-width: 360px) {
-    .hero-title {
-      font-size: 1.5rem;
-    }
-  }
-</style>
-
 
     <!-- Contenido principal -->
     <main class="container mx-auto px-4 py-8 -mt-4 relative z-10">
