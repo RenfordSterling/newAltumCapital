@@ -438,8 +438,10 @@
     <div class="w-full max-w-6xl mx-auto px-4">
       <!-- Título y badge -->
       <div class="text-center mb-8 px-4">
-        <h1 class="hero-title mb-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
-          Convirtiendo las presiones inflacionarias<br>en crecimiento sostenible
+        <h1 class="hero-title mb-4
+          text-4xl sm:text-5xl md:text-6xl
+          font-extrabold text-white leading-tight max-w-xl mx-auto">
+          Convirtiendo las presiones inflacionarias en crecimiento sostenible
         </h1>
         <div class="inline-flex items-center px-4 py-2 bg-blue-500/20 border border-blue-400 rounded-full text-blue-300 text-sm font-medium animate-pulse">
           <svg class="w-4 h-4 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -489,8 +491,8 @@
           <p class="text-white/80 text-sm">Acceso a tus inversiones desde cualquier lugar con notificaciones en tiempo real</p>
         </div>
 
-        <!-- Tarjeta 3 -->
-        <div class="flex-1 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:transform hover:-translate-y-1">
+        <!-- Tarjeta 3 (visible en móvil también) -->
+        <div class="flex-1 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:transform hover:-translate-y-1 block">
           <div class="flex items-center mb-3">
             <div class="bg-blue-500/10 p-2 rounded-lg mr-3">
               <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -520,7 +522,24 @@
       </div>
     </div>
   </div>
+
+  <!-- Versión -->
+  <div class="absolute bottom-4 left-0 right-0 text-center">
+    <p class="text-xs text-white/40">v0.8.5 | Build: 25052025-01</p>
+  </div>
+
+  <style>
+    /* Limitar título a máximo 3 líneas, ocultar lo que sobrepasa */
+    .hero-title {
+      display: -webkit-box;
+      -webkit-line-clamp: 3; /* Cambia a 2 para máximo 2 líneas */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-align: center;
+    }
+  </style>
 </section>
+
 
     <!-- Contenido principal -->
     <main class="container mx-auto px-4 py-8 -mt-4 relative z-10">
