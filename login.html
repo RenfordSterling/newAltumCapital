@@ -1,1 +1,389 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renford Sterling - Iniciar Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'altum-dark-bg': '#131722',
+                        'altum-card-bg': '#1E222D',
+                        'altum-border': '#2A2E39',
+                        'altum-accent': '#3B82F6',
+                        'altum-accent-hover': '#60A5FA',
+                        'altum-text-primary': '#E5E7EB',
+                        'altum-text-secondary': '#9CA3AF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #131722 0%, #1E222D 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            background: rgba(30, 34, 45, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #3B82F6, transparent);
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem;
+            height: 4rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #E5E7EB 0%, #9CA3AF 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-subtitle {
+            color: #9CA3AF;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #9CA3AF;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: rgba(42, 46, 57, 0.8);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            color: #E5E7EB;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #3B82F6;
+            background: rgba(42, 46, 57, 1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 2.25rem;
+            color: #9CA3AF;
+            font-size: 1rem;
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+        
+        .login-button:active {
+            transform: translateY(0);
+        }
+        
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .forgot-password {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .forgot-password a {
+            color: #3B82F6;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .forgot-password a:hover {
+            color: #60A5FA;
+        }
+        
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #FCA5A5;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6EE7B7;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .account-links {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(42, 46, 57, 0.8);
+            margin-top: 1.5rem;
+        }
+        
+        .account-links p {
+            color: #9CA3AF;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .account-links a {
+            color: #3B82F6;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .account-links a:hover {
+            color: #60A5FA;
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-container">
+            <div class="logo-icon">
+                RS
+            </div>
+            <div class="logo-text">Renford Sterling</div>
+            <div class="login-subtitle">Inicia sesión en tu área de cliente segura</div>
+        </div>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="email">
+                    <i class="fas fa-envelope mr-2"></i>Email
+                </label>
+                <div class="relative">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" placeholder="Ingresa tu email" required>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">
+                    <i class="fas fa-lock mr-2"></i>Contraseña
+                </label>
+                <div class="relative">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" placeholder="Ingresa tu contraseña" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="login-button" id="loginBtn">
+                <div class="loading-spinner" id="loadingSpinner"></div>
+                <span id="loginBtnText">INICIAR SESIÓN</span>
+            </button>
+            
+            <div class="forgot-password">
+                <a href="#" onclick="alert('Contacta al administrador para recuperar tu contraseña.')">¿Olvidaste tu contraseña?</a>
+            </div>
+            
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+        </form>
+        
+        <div class="account-links">
+            <p>¿No tienes una cuenta?</p>
+            <a href="#" onclick="alert('Contacta al administrador para crear una cuenta.')">Abrir Cuenta Demo</a> |
+            <a href="#" onclick="alert('Contacta al administrador para crear una cuenta.')">Abrir Cuenta Real</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const errorMessage = document.getElementById("errorMessage");
+            const successMessage = document.getElementById("successMessage");
+            const loginBtn = document.getElementById("loginBtn");
+            const loginBtnText = document.getElementById("loginBtnText");
+            const loadingSpinner = document.getElementById("loadingSpinner");
+
+            // Ocultar mensajes previos
+            errorMessage.style.display = "none";
+            successMessage.style.display = "none";
+
+            // Mostrar estado de carga
+            loginBtn.disabled = true;
+            loadingSpinner.style.display = "inline-block";
+            loginBtnText.textContent = "INICIANDO SESIÓN...";
+
+            // Credenciales permitidas
+            const allowedCredentials = {
+                "holaagrupofinanciero@gmail.com": "5432", // Últimos 4 dígitos de 108765432
+                "mifranco@gmail.com": "5432" // Usando la misma contraseña para Mifranco
+            };
+
+            // Simular delay de autenticación
+            setTimeout(() => {
+                if (allowedCredentials[email] && allowedCredentials[email] === password) {
+                    // Inicio de sesión exitoso
+                    successMessage.textContent = "¡Inicio de sesión exitoso! Redirigiendo...";
+                    successMessage.style.display = "block";
+                    
+                    // Guardar estado de sesión
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('loginTime', new Date().toISOString());
+                    
+                    // Redirigir después de un breve delay
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 1500);
+                } else {
+                    // Credenciales inválidas
+                    errorMessage.textContent = "Email o contraseña incorrectos. Verifica tus credenciales.";
+                    errorMessage.style.display = "block";
+                    
+                    // Resetear botón
+                    loginBtn.disabled = false;
+                    loadingSpinner.style.display = "none";
+                    loginBtnText.textContent = "INICIAR SESIÓN";
+                }
+            }, 1000);
+        });
+
+        // Verificar si ya está logueado
+        window.addEventListener('load', function() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                // Ya está logueado, redirigir al dashboard
+                window.location.href = "dashboard.html";
+            }
+        });
+
+        // Manejar Enter en los campos de entrada
+        document.getElementById("email").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("password").focus();
+            }
+        });
+
+        document.getElementById("password").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("loginForm").dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>
+
 
