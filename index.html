@@ -6,94 +6,59 @@
     <title>Renford Sterling - Iniciar Sesión</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        'altum-dark-bg': '#131722',
-                        'altum-card-bg': '#1E222D',
-                        'altum-border': '#2A2E39',
-                        'altum-accent': '#3B82F6',
-                        'altum-accent-hover': '#60A5FA',
-                        'altum-text-primary': '#E5E7EB',
-                        'altum-text-secondary': '#9CA3AF',
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #131722 0%, #1E222D 100%);
+            background: #000000;
+            background-image: radial-gradient(circle at 20% 80%, rgba(20, 20, 20, 0.8) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 20%, rgba(30, 30, 30, 0.8) 0%, transparent 50%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0;
+            padding: 20px;
         }
         
         .login-container {
-            background: rgba(30, 34, 45, 0.95);
+            background: rgba(26, 26, 26, 0.95);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 16px;
-            padding: 3rem;
+            border: 1px solid rgba(64, 64, 80, 0.3);
+            border-radius: 8px;
+            padding: 3rem 2.5rem;
             width: 100%;
-            max-width: 450px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             position: relative;
-            overflow: hidden;
-        }
-        
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #3B82F6, transparent);
         }
         
         .logo-container {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
         
-        .logo-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 4rem;
-            height: 4rem;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
-            color: white;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        .logo-image {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem auto;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iMTIiIGZpbGw9IiMxQTFBMUEiLz4KPHN2ZyB4PSIxNSIgeT0iMTUiIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIiBmaWxsPSJub25lIj4KPHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjUiIHk9IjMwIiB3aWR0aD0iNiIgaGVpZ2h0PSIxNSIgZmlsbD0iIzQ2NTQ2NCIvPgo8cmVjdCB4PSIxNCIgeT0iMjUiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNTQ3M0E0Ii8+CjxyZWN0IHg9IjIzIiB5PSIyMCIgd2lkdGg9IjYiIGhlaWdodD0iMjUiIGZpbGw9IiM0NjU0NjQiLz4KPHJlY3QgeD0iMzIiIHk9IjEwIiB3aWR0aD0iNiIgaGVpZ2h0PSIzNSIgZmlsbD0iIzAwRTYwMCIvPgo8cGF0aCBkPSJNNSA0MFEyMCA0NSAzNSAzNVE0MCAzMCA0NSAyNSIgc3Ryb2tlPSIjNDY1NDY0IiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz4KPC9zdmc+Cjwvc3ZnPgo8L3N2Zz4=') center/contain no-repeat;
         }
         
         .logo-text {
             font-weight: 700;
             font-size: 1.5rem;
-            background: linear-gradient(135deg, #E5E7EB 0%, #9CA3AF 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 0.5px;
+            color: #FFFFFF;
             margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
         }
         
         .login-subtitle {
-            color: #9CA3AF;
+            color: #A0A0A0;
             font-size: 1rem;
             font-weight: 400;
+            margin-bottom: 2rem;
         }
         
         .input-group {
@@ -106,55 +71,67 @@
             margin-bottom: 0.5rem;
             font-size: 0.875rem;
             font-weight: 500;
-            color: #9CA3AF;
+            color: #A0A0A0;
         }
         
         .input-group input {
             width: 100%;
             padding: 1rem 1rem 1rem 3rem;
-            background: rgba(42, 46, 57, 0.8);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            color: #E5E7EB;
+            background: rgba(48, 48, 64, 0.3);
+            border: 2px solid rgba(48, 48, 64, 0.5);
+            border-radius: 4px;
+            color: #FFFFFF;
             font-size: 1rem;
             transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+        }
+        
+        .input-group input::placeholder {
+            color: #707070;
         }
         
         .input-group input:focus {
             outline: none;
+            background: rgba(48, 48, 64, 0.6);
+        }
+        
+        .input-group input[type="email"]:focus {
             border-color: #3B82F6;
-            background: rgba(42, 46, 57, 1);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .input-group input[type="password"]:focus {
+            border-color: #FFA500;
+            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
         }
         
         .input-icon {
             position: absolute;
             left: 1rem;
             top: 2.25rem;
-            color: #9CA3AF;
+            color: #A0A0A0;
             font-size: 1rem;
         }
         
         .login-button {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
-            color: white;
+            background: #00E600;
+            color: #000000;
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
             margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            background: #00CC00;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 230, 0, 0.3);
         }
         
         .login-button:active {
@@ -173,7 +150,7 @@
         }
         
         .forgot-password a {
-            color: #3B82F6;
+            color: #9932CC;
             text-decoration: none;
             font-size: 0.875rem;
             font-weight: 500;
@@ -181,7 +158,7 @@
         }
         
         .forgot-password a:hover {
-            color: #60A5FA;
+            color: #B347D9;
         }
         
         .error-message {
@@ -189,18 +166,18 @@
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: #FCA5A5;
             padding: 0.75rem 1rem;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 0.875rem;
             margin-top: 1rem;
             display: none;
         }
         
         .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #6EE7B7;
+            background: rgba(0, 230, 0, 0.1);
+            border: 1px solid rgba(0, 230, 0, 0.3);
+            color: #90EE90;
             padding: 0.75rem 1rem;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 0.875rem;
             margin-top: 1rem;
             display: none;
@@ -211,7 +188,7 @@
             width: 20px;
             height: 20px;
             border: 2px solid transparent;
-            border-top: 2px solid white;
+            border-top: 2px solid #000000;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 0.5rem;
@@ -225,18 +202,18 @@
         .account-links {
             text-align: center;
             padding-top: 1.5rem;
-            border-top: 1px solid rgba(42, 46, 57, 0.8);
+            border-top: 1px solid rgba(64, 64, 80, 0.3);
             margin-top: 1.5rem;
         }
         
         .account-links p {
-            color: #9CA3AF;
+            color: #A0A0A0;
             font-size: 0.875rem;
             margin-bottom: 1rem;
         }
         
         .account-links a {
-            color: #3B82F6;
+            color: #9932CC;
             text-decoration: none;
             font-weight: 500;
             margin: 0 0.5rem;
@@ -244,13 +221,31 @@
         }
         
         .account-links a:hover {
-            color: #60A5FA;
+            color: #B347D9;
+        }
+        
+        .risk-warning {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            color: #606060;
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            border-top: 1px solid rgba(64, 64, 80, 0.3);
         }
         
         @media (max-width: 480px) {
             .login-container {
                 margin: 1rem;
-                padding: 2rem;
+                padding: 2rem 1.5rem;
+            }
+            
+            .risk-warning {
+                position: relative;
+                margin-top: 2rem;
             }
         }
     </style>
@@ -258,9 +253,7 @@
 <body>
     <div class="login-container">
         <div class="logo-container">
-            <div class="logo-icon">
-                RS
-            </div>
+            <div class="logo-image"></div>
             <div class="logo-text">Renford Sterling</div>
             <div class="login-subtitle">Inicia sesión en tu área de cliente segura</div>
         </div>
@@ -272,27 +265,27 @@
                 </label>
                 <div class="relative">
                     <i class="fas fa-envelope input-icon"></i>
-                    <input type="email" id="email" placeholder="Ingresa tu email" required>
+                    <input type="email" id="email" placeholder="Email" required>
                 </div>
             </div>
             
             <div class="input-group">
                 <label for="password">
-                    <i class="fas fa-lock mr-2"></i>Contraseña
+                    <i class="fas fa-lock mr-2"></i>Password
                 </label>
                 <div class="relative">
                     <i class="fas fa-lock input-icon"></i>
-                    <input type="password" id="password" placeholder="Ingresa tu contraseña" required>
+                    <input type="password" id="password" placeholder="Password" required>
                 </div>
             </div>
             
             <button type="submit" class="login-button" id="loginBtn">
                 <div class="loading-spinner" id="loadingSpinner"></div>
-                <span id="loginBtnText">INICIAR SESIÓN</span>
+                <span id="loginBtnText">LOGIN</span>
             </button>
             
             <div class="forgot-password">
-                <a href="#" onclick="alert('Contacta al administrador para recuperar tu contraseña.')">¿Olvidaste tu contraseña?</a>
+                <a href="#" onclick="alert('Contacta al administrador para recuperar tu contraseña.')">Forgot Password?</a>
             </div>
             
             <div id="errorMessage" class="error-message"></div>
@@ -300,10 +293,14 @@
         </form>
         
         <div class="account-links">
-            <p>¿No tienes una cuenta?</p>
-            <a href="#" onclick="alert('Contacta al administrador para crear una cuenta.')">Abrir Cuenta Demo</a> |
-            <a href="#" onclick="alert('Contacta al administrador para crear una cuenta.')">Abrir Cuenta Real</a>
+            <p>Don't have an account?</p>
+            <a href="#" onclick="alert('Contacta al administrador para crear una cuenta.')">Open a Demo Account</a> |
+            <a href="#" onclick="alert('Contacta al administrador para crear una cuenta.')">Open a Real Account</a>
         </div>
+    </div>
+    
+    <div class="risk-warning">
+        Risk warning: Trading Derivatives carries a high level of risk to your capital and you should only trade with money you can afford to lose. Trading Derivatives may not be suitable for all investors, so please ensure that you fully understand the risks involved and seek independent advice if necessary.
     </div>
 
     <script>
@@ -325,7 +322,7 @@
             // Mostrar estado de carga
             loginBtn.disabled = true;
             loadingSpinner.style.display = "inline-block";
-            loginBtnText.textContent = "INICIANDO SESIÓN...";
+            loginBtnText.textContent = "LOGGING IN...";
 
             // Credenciales permitidas
             const allowedCredentials = {
@@ -337,7 +334,7 @@
             setTimeout(() => {
                 if (allowedCredentials[email] && allowedCredentials[email] === password) {
                     // Inicio de sesión exitoso
-                    successMessage.textContent = "¡Inicio de sesión exitoso! Redirigiendo...";
+                    successMessage.textContent = "Login successful! Redirecting...";
                     successMessage.style.display = "block";
                     
                     // Guardar estado de sesión
@@ -351,13 +348,13 @@
                     }, 1500);
                 } else {
                     // Credenciales inválidas
-                    errorMessage.textContent = "Email o contraseña incorrectos. Verifica tus credenciales.";
+                    errorMessage.textContent = "Invalid email or password. Please check your credentials.";
                     errorMessage.style.display = "block";
                     
                     // Resetear botón
                     loginBtn.disabled = false;
                     loadingSpinner.style.display = "none";
-                    loginBtnText.textContent = "INICIAR SESIÓN";
+                    loginBtnText.textContent = "LOGIN";
                 }
             }, 1000);
         });
@@ -385,5 +382,4 @@
     </script>
 </body>
 </html>
-
 
