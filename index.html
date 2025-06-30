@@ -3,10 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Altum Capital - Dashboard</title>
+    <title>Renford Sterling - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Script de autenticación -->
+    <script>
+        // Verificar autenticación al cargar la página
+        window.addEventListener('load', function() {
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                // No está logueado, redirigir al login
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Verificar si la sesión ha expirado (opcional - 24 horas)
+            const loginTime = localStorage.getItem('loginTime');
+            if (loginTime) {
+                const now = new Date();
+                const loginDate = new Date(loginTime);
+                const hoursDiff = (now - loginDate) / (1000 * 60 * 60);
+                
+                if (hoursDiff > 24) {
+                    // Sesión expirada
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('loginTime');
+                    alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+            }
+            
+            // Mostrar email del usuario en la navegación si existe
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                // Buscar donde mostrar el email del usuario (puedes personalizar esto)
+                const userDisplay = document.getElementById('userDisplay');
+                if (userDisplay) {
+                    userDisplay.textContent = userEmail;
+                }
+            }
+        });
+        
+        // Función para cerrar sesión
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('loginTime');
+            window.location.href = 'login.html';
+        }
+    </script>
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -49,6 +98,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
+        /* Estilos generales (se mantienen igual) */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -72,6 +122,21 @@
             background: #E5E7EB;
         }
 
+        /* Estilos específicos para el título */
+        .hero-title span {
+            display: inline-block;
+            padding: 0 0.15em;
+            line-height: 1.1;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title span {
+                display: block;
+                line-height: 1.3 !important;
+            }
+        }
+
+        /* Resto de estilos se mantienen igual */
         .chartjs-tooltip {
             background: rgba(30, 34, 45, 0.95) !important;
             color: #E5E7EB !important;
@@ -376,18 +441,26 @@
             background-color: #D1D5DB;
         }
 
-        /* Nuevos estilos agregados para el título */
-        .hero-title span.block {
-            display: block;
-            white-space: nowrap;
+        /* Nuevos estilos para scroll horizontal */
+        .overflow-x-auto {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .overflow-x-auto::-webkit-scrollbar {
+            display: none;
+        }
+
+        .flex-nowrap {
+            flex-wrap: nowrap;
+        }
+
+        .hover\:-translate-y-1:hover {
+            transform: translateY(-4px);
         }
 
         @media (max-width: 768px) {
-            .hero-title span.block {
-                white-space: normal;
-            }
-            .hero-content {
-                padding-top: 20%;
+            .video-hero {
+                min-height: 85vh;
             }
         }
     </style>
@@ -404,18 +477,22 @@
     <!-- Barra de navegación -->
     <nav class="dark:bg-altum-card-bg bg-light-card shadow-lg border-b dark:border-altum-border border-light-border sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="logo-container">
+          <div class="logo-container">
                 <div class="logo-icon">
-                    AC
+                    
                 </div>
-                <span class="logo-text">ALTUM CAPITAL</span>
+                <span class="logo-text">Renford Sterling</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
                 <a href="#" class="dark:text-altum-text-secondary text-light-text-secondary hover:text-altum-accent dark:hover:text-altum-accent font-medium transition-colors">Dashboard</a>
                 <a href="#" class="dark:text-altum-text-secondary text-light-text-secondary hover:text-altum-accent dark:hover:text-altum-accent transition-colors">Inversores</a>
                 <a href="#" class="dark:text-altum-text-secondary text-light-text-secondary hover:text-altum-accent dark:hover:text-altum-accent transition-colors">Reportes</a>
                 <a href="#" class="dark:text-altum-text-secondary text-light-text-secondary hover:text-altum-accent dark:hover:text-altum-accent transition-colors">Configuración</a>
+                <span id="userDisplay" class="dark:text-altum-text-secondary text-light-text-secondary text-sm"></span>
                 <button class="bg-altum-accent hover:bg-altum-accent-hover text-white px-4 py-2 rounded-md font-semibold transition-colors shadow-md hover:shadow-lg text-sm">Depositar</button>
+                <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-semibold transition-colors shadow-md hover:shadow-lg text-sm">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Salir
+                </button>
             </div>
             <div class="md:hidden">
                 <button class="text-altum-accent focus:outline-none">
@@ -426,137 +503,41 @@
     </nav>
 
     <!-- Hero Section corregida -->
-        <section class="video-hero relative h-auto min-h-[90vh] md:h-[600px]">
-        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
-            <source src="https://d21u74ttq7jqzf.cloudfront.net/video/v15_banner_video.mp4?v=1" type="video/mp4">
-        </video>
-        <div class="video-overlay absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70"></div>
-
-        <div class="hero-content relative z-10 flex items-center justify-center h-full py-12 md:py-0">
-            <div class="w-full max-w-5xl mx-auto px-4">
-                <!-- Título profesional optimizado -->
-                <div class="text-center mb-8 space-y-1">
-                    <h1 class="hero-title text-white font-extrabold text-[2rem] leading-[1.1] tracking-tight 
-                              md:text-[2.5rem] md:leading-[1.05] md:tracking-tighter 
-                              lg:text-[3rem] xl:text-[3.5rem]">
-                        <span>Convirtiendo las presiones</span>
-                        <span>inflacionarias en</span>
-                        <span>crecimiento&nbsp;sostenible</span>
-                    </h1>
-
-                    <!-- Badge de desarrollo (mantenido igual) -->
-                    <div class="inline-flex items-center px-4 py-2 bg-blue-500/20 border border-blue-400 rounded-full text-blue-300 text-sm font-medium animate-pulse mt-4 mx-auto max-w-max">
-                        <svg class="w-4 h-4 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
-                        PLATAFORMA EN DESARROLLO
-                    </div>
-                </div>
-
-      <!-- Contenedor de tarjetas con scroll horizontal en móvil -->
-      <div class="flex overflow-x-auto pb-6 mb-6 md:overflow-visible md:justify-center md:pb-0">
-        <div class="flex flex-nowrap gap-4 w-max md:w-full md:grid md:grid-cols-3 md:gap-6">
-          
-          <!-- Tarjeta 1 -->
-          <div class="flex-shrink-0 w-72 md:w-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:-translate-y-1">
-            <div class="flex items-center mb-3">
-              <div class="bg-blue-500/10 p-2 rounded-lg mr-3">
-                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
-              </div>
-              <div>
-                <h4 class="font-bold text-white text-lg">Plataforma Web</h4>
-                <div class="mt-1 flex items-center">
-                  <span class="inline-block w-2 h-2 rounded-full bg-blue-400 mr-2 animate-pulse"></span>
-                  <span class="text-sm text-blue-300">Ago 2025</span>
-                </div>
-              </div>
-            </div>
-            <p class="text-white/80 text-sm">Interfaz profesional con análisis avanzado de mercados</p>
-          </div>
-
-          <!-- Tarjeta 2 -->
-          <div class="flex-shrink-0 w-72 md:w-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:-translate-y-1">
-            <div class="flex items-center mb-3">
-              <div class="bg-blue-500/10 p-2 rounded-lg mr-3">
-                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-                </svg>
-              </div>
-              <div>
-                <h4 class="font-bold text-white text-lg">App Móvil</h4>
-                <div class="mt-1 flex items-center">
-                  <span class="inline-block w-2 h-2 rounded-full bg-yellow-400 mr-2"></span>
-                  <span class="text-sm text-yellow-300">En Desarrollo</span>
-                </div>
-              </div>
-            </div>
-            <p class="text-white/80 text-sm">Accede de forma segura con tu usuario y contraseña. Controla tus inversiones desde cualquier lugar, sin perder detalle.</p>
-          </div>
-
-          <!-- Tarjeta 3 -->
-          <div class="flex-shrink-0 w-72 md:w-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-blue-400/50 transition-all duration-300 hover:-translate-y-1">
-            <div class="flex items-center mb-3">
-              <div class="bg-blue-500/10 p-2 rounded-lg mr-3">
-                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                </svg>
-              </div>
-              <div>
-                <h4 class="font-bold text-white text-lg">Dashboard</h4>
-                <div class="mt-1 flex items-center">
-                  <span class="inline-block w-2 h-2 rounded-full bg-purple-400 mr-2"></span>
-                  <span class="text-sm text-purple-300">Fase Beta</span>
-                </div>
-              </div>
-            </div>
-            <p class="text-white/80 text-sm">Reportes detallados y alertas personalizadas</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- CTA Centrado -->
-      <div class="text-center px-4">
-        <a href="#" class="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 text-white rounded-lg text-base font-medium transition-all duration-300 hover:shadow-lg w-full max-w-md mx-auto">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-          </svg>
-          Solicitar Acceso Anticipado
-        </a>
-      </div>
+       <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+  <!-- Nueva imagen de portada -->
+  <img 
+    src="https://i.imgur.com/3ZTlgM0.jpg" 
+    alt="Altum Capital" 
+    class="absolute inset-0 w-full h-full object-cover"
+  >
+  
+  <!-- Capa semitransparente para mejorar legibilidad -->
+  <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-transparent"></div>
+  
+  <!-- Contenido centrado -->
+  <div class="relative z-10 text-center px-4 w-full max-w-4xl">
+    <!-- Título principal -->
+    <h1 class="text-3xl md:text-4xl font-bold text-white mb-8">
+      RESILIENCIA FINANCIERA EN TIEMPOS DE CONFLICTO
+    </h1>
+    
+    <!-- Badge de desarrollo -->
+    <div class="inline-flex items-center bg-black/70 border border-green-400 text-green-300 px-6 py-3 rounded-full text-sm font-medium tracking-widest">
+      <i class="fas fa-cog fa-spin mr-2"></i>
+      PLATAFORMA EN DESARROLLO
     </div>
   </div>
 </section>
 
 <style>
-  /* Ocultar scrollbar pero mantener funcionalidad */
-  .overflow-x-auto {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .fa-spin {
+    animation: fa-spin 2s infinite linear;
   }
-  .overflow-x-auto::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Asegurar que las tarjetas no se encimen */
-  .flex-nowrap {
-    flex-wrap: nowrap;
-  }
-
-  /* Efecto hover más suave */
-  .hover\:-translate-y-1:hover {
-    transform: translateY(-4px);
-  }
-
-  /* Ajustar altura del hero en móviles */
-  @media (max-width: 768px) {
-    .video-hero {
-      min-height: 85vh;
-    }
+  @keyframes fa-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 </style>
-
 
 
     <!-- Contenido principal -->
@@ -603,17 +584,18 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y dark:divide-altum-border divide-light-border">
                     <thead class="dark:bg-altum-border bg-light-border bg-opacity-50">
-                        <tr>
-                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">#</th>
-                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Inversor</th>
-                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Código</th>
-                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Balance Actual</th>
-                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Rendimiento (%)</th>
-                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Balance Inicial</th>
-                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Estado</th>
-                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Acciones</th>
-                        </tr>
-                    </thead>
+    <tr>
+        <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">#</th>
+        <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Inversor</th>
+        <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Balance Actual</th>
+        <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Rendimiento (%)</th>
+        <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Balance Inicial</th>
+        <!-- Código movido aquí -->
+        <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Código</th>
+        <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Estado</th>
+        <th scope="col" class="px-4 py-3 text-left text-xs font-medium dark:text-altum-text-secondary text-light-text-secondary uppercase tracking-wider">Acciones</th>
+    </tr>
+</thead>
                     <tbody class="dark:bg-altum-card-bg bg-light-card divide-y dark:divide-altum-border divide-light-border" id="investors-table">
                         <!-- Inversores se cargarán dinámicamente -->
                     </tbody>
@@ -1030,37 +1012,7 @@ India lanza un ataque con misiles contra Pakistán y escala las tensiones entre 
                 }
             },
             // Inversor 4 (Dipatermina)
-            {
-                id: 4,
-                username: "Dipatermina",
-                code: "75042015",
-                initialBalance: 750.00,
-                balance: 800.00,
-                deposits: 1,
-                withdrawals: 0,
-                status: "high",
-                cuanto: 7.24,
-                maxLot: 0.03,
-                performance: 6.67,
-                balanceChange: "+1.2% este mes",
-                operations: [
-                    {
-                        date: "01/04/2025",
-                        operation: "Compra",
-                        session: "London",
-                        open: 1.0800,
-                        close: 1.0825,
-                        result: "Take Profit",
-                        observation: "EUR/USD - Lote: 0.03"
-                    }
-                ],
-                growthData: {
-                    '1M': [750, 760, 770, 780, 790, 800],
-                    '3M': [700, 710, 720, 730, 740, 750, 760, 770, 780, 790, 800],
-                    '6M': [650, 660, 670, 680, 690, 700, 710, 720, 730, 740, 750, 760, 770, 780, 790, 800],
-                    '1A': [600, 610, 620, 630, 640, 650, 660, 670, 680, 690, 700, 710, 720, 730, 740, 750, 760, 770, 780, 790, 800]
-                }
-            },
+          
             // Inversor 5 (Anfionez)
             {
                 id: 5,
@@ -1095,44 +1047,50 @@ India lanza un ataque con misiles contra Pakistán y escala las tensiones entre 
             },
             // Inversor 6 (Audbar)
             {
-                id: 6,
-                username: "Audbar",
-                code: "195443700",
-                initialBalance: 926.40,
-                balance: 985.11,
-                deposits: 3,
-                withdrawals: 0,
-                status: "high",
-                cuanto: 0,
-                maxLot: 0.03,
-                performance: 5.81,
-                balanceChange: "+5.80% este mes",
-                operations: [
-                    {
-                        date: "05/23/2025",
-                        operation: "Compra",
-                        session: "New York",
-                        open: 1.13285,
-                        close:1.13552,
-                        result: "Take Profit (7.20)",
-                        observation: "EUR/USD - Lote: 0.03"
-                    },
-                    {
-                        date: "20/05/2025",
-                        operation: "Compra",
-                        session: "New York",
-                        open: 1.1374,
-                        close: 1.12421,
-                        result: "Take Profit (1.14)",
-                        observation: "EUR/USD - Lote: 0.02"
-                    }
-                ],
-                growthData: {
-                    '1M': [474, 475, 476, 477, 478, 479.17],
-                    '3M': [470, 471, 472, 473, 474, 475, 476, 477, 478, 479.17],
-                    '6M': [460, 465, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479.17],
-                    '1A': [450, 455, 460, 465, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479.17]
-                }
+    id: 6,
+    username: "Audbar",
+    code: "195443700",
+    initialBalance: 5390,          // Total depositado (se mantiene igual)
+    balance: 5547.33 + 23.00,      // Nuevo balance: 5570.33
+    deposits: 6,
+    withdrawals: 1,
+    status: "high",
+    cuanto: 0,
+    maxLot: 0.06,
+    // Rendimiento RECALCULADO: ((NuevoBalance - initialBalance) / initialBalance * 100)
+    performance: ((5570.33 - 5390) / 5390 * 100).toFixed(2),  // ≈ 3.35%
+    balanceChange: "+3.35% en junio",  // Actualizado
+    operations: [
+        // Depósito (24/06/2025)
+        {
+            date: "24/06/2025",
+            operation: "DEPOSIT",
+            session: "BALANCE",
+            open: 4547.73,         // Ajustado para coincidir con el cálculo
+            close: 5547.33,        // 4547.73 + 999.60
+            result: "Depósito",
+            observation: "Balance inicial de junio: $4,547.73 USD"
+        },
+        // Retiro (18/06/2025)
+        {
+            date: "18/06/2025",
+            operation: "WITHDRAWAL",
+            session: "BALANCE",
+            open: 4547.73,         // Mismo balance base
+            close: 4547.73 - 31.91, // Retiro de $31.91 USD
+            result: "Retiro 31.91 USD",
+            observation: "Ajuste por movimiento"
+        }
+
+
+    ],
+    growthData: {
+        '1M': [474, 475, 476, 477, 478, 479.17, 4477.73],  // Añadido balance final
+        '3M': [470, 471, 472, 473, 474, 475, 476, 477, 478, 479.17, 4477.73],
+        '6M': [460, 465, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479.17, 4477.73],
+        '1A': [450, 455, 460, 465, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479.17, 4477.73]
+    }
+
             },
             // Inversor 7 (Armexf)
             {
@@ -1167,78 +1125,99 @@ India lanza un ataque con misiles contra Pakistán y escala las tensiones entre 
                 }
             },
             // Inversor 8 (Anprada)
+             {
+        id: 8,
+        username: "Anprada",
+        code: "107363527",
+        initialBalance: 500.00,
+        balance: 535.12,  // Actualizado (+0.9)
+        deposits: 1,
+        withdrawals: 1,
+        status: "high",
+        cuanto: 6.1,
+        maxLot: 0.03,
+        performance: 7.02,  // Actualizado (era 6.84)
+        balanceChange: "+7.02% este mes",  // Actualizado
+        operations: [
+            // Operaciones anteriores eliminadas (según lo solicitado)
             {
-                id: 8,
-                username: "Anprada",
-                code: "107363527",
-                initialBalance: 500.00,
-                balance: 534.22,
-                deposits: 1,
-                withdrawals: 1,
-                status: "high",
-                cuanto: 6.1,
-                maxLot: 0.03,
-                performance: 6.84,
-                balanceChange: "+6.84% este mes",
-                operations: [
-                    {
-                        date: "25/05/2025",
-                        operation: "Compra",
-                        session: "New York",
-                        open: 1.13285,
-                        close: 1.13552,
-                        result: "Take Profit (9.72)",
-                        observation: "EUR/USD - Lote: 0.03"
-                    },
-                    {
-                        date: "19/05/2025",
-                        operation: "WITHDRAWAL",
-                        session: "BALANCE",
-                        open: 540.12,
-                        close: 524.05,
-                        result: " ",
-                        observation: "BALANCE 524.05"
-                    }
-                ],
-                growthData: {
-                    '1M': [500, 510, 520, 530, 534.92],
-                    '3M': [450, 460, 470, 480, 490, 500, 510, 520, 530, 534.92],
-                    '6M': [400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 534.92],
-                    '1A': [350, 360, 370, 380, 390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 534.92]
-                }
+                date: "09/06/2025",
+                operation: "Venta",
+                session: "New York",
+                open: 1.1822,
+                close: 1.15282,
+                result: "Take Profit (+6 USD)",
+                observation: "EUR/USD - Lote: 0.03"
             },
+            {
+                date: "16/06/2025",
+                operation: "Compra",
+                session: "London",
+                open: 1.1200,
+                close: 1.1150,
+                result: "Stop Loss (-5.1 USD)",
+                observation: "EUR/USD - Lote: 0.03"
+            }
+        ],
+        growthData: {
+            '1M': [500, 510, 520, 530, 535.12],
+            '3M': [450, 460, 470, 480, 490, 500, 510, 520, 530, 535.12],
+            '6M': [400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 535.12],
+            '1A': [350, 360, 370, 380, 390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 535.12]
+        }
+    },
             // Inversor 9 (Alejmo)
             {
-                id: 9,
-                username: "Alejmo",
-                code: "764977124",
-                initialBalance: 206.00,
-                balance: 234.40,
-                deposits: 1,
-                withdrawals: 0,
-                status: "medium",
-                cuanto: 0.09,
-                maxLot: 0.1,
-                performance: 13.79,
-                balanceChange: "+1.8% este mes",
-                operations: [
-                    {
-                        date: "30/04/2025",
-                        operation: "Venta",
-                        session: "New York",
-                        open: 1.13534,
-                        close:1.13366,
-                        result: "Take Profit (5.17)",
-                        observation: "EUR/USD - Lote: 0.03"
-                    }
-                ],
-                growthData: {
-                    '1M': [206, 210, 215, 220, 225, 230, 234.4],
-                    '3M': [200, 205, 210, 215, 220, 225, 230, 234.4],
-                    '6M': [190, 195, 200, 205, 210, 215, 220, 225, 230, 234.4],
-                    '1A': [180, 185, 190, 195, 200, 205, 210, 215, 220, 225, 230, 234.4]
-                }
+        id: 9,
+        username: "Alejmo",
+        code: "764977124",
+        initialBalance: 206.00,
+        balance: 235.30,  // Actualizado (234.40 + 6 - 5.1)
+        deposits: 1,
+        withdrawals: 0,
+        status: "medium",
+        cuanto: 0.09,
+        maxLot: 0.1,
+        performance: 14.22,  // Actualizado (antes 13.79)
+        balanceChange: "+14.22% este mes",  // Actualizado
+        operations: [
+            // Operación original conservada
+            {
+                date: "30/04/2025",
+                operation: "Venta",
+                session: "New York",
+                open: 1.13534,
+                close: 1.13366,
+                result: "Take Profit (5.17)",
+                observation: "EUR/USD - Lote: 0.03"
+            },
+            // Operaciones nuevas añadidas
+            {
+                date: "09/06/2025",
+                operation: "Compra",
+                session: "New York",
+                open: 1.1822,
+                close: 1.1850,
+                result: "Take Profit (+6 USD)",
+                observation: "EUR/USD - Lote: 0.03"
+            },
+            {
+                date: "16/06/2025",
+                operation: "Venta",
+                session: "London",
+                open: 1.1200,
+                close: 1.1150,
+                result: "Stop Loss (-5.1 USD)",
+                observation: "EUR/USD - Lote: 0.03"
             }
+        ],
+        growthData: {
+            '1M': [206, 210, 215, 220, 225, 230, 234.40, 235.30],
+            '3M': [200, 205, 210, 215, 220, 225, 230, 234.40, 235.30],
+            '6M': [190, 195, 200, 205, 210, 215, 220, 225, 230, 234.40, 235.30],
+            '1A': [180, 185, 190, 195, 200, 205, 210, 215, 220, 225, 230, 234.40, 235.30]
+        }
+    }
         ];
 
         // Variables para paginación
@@ -1286,22 +1265,24 @@ India lanza un ataque con misiles contra Pakistán y escala las tensiones entre 
                 const statusClass = `status-${investor.status}`;
                 
                 row.innerHTML = `
-                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium dark:text-altum-text-primary text-light-text">${i + 1}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium dark:text-white text-light-text">${investor.username}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm dark:text-altum-text-secondary text-light-text-secondary">${investor.code}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm font-semibold dark:text-white text-light-text">${formatUSD(investor.balance)}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium ${performanceClass}">
-                        <i class="fas ${performanceIcon} mr-1"></i> ${investor.performance}%
-                    </td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm font-semibold dark:text-white text-light-text">${formatUSD(investor.initialBalance)}</td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm">
-                        <span class="status-badge ${statusClass}">${getStatusText(investor.status)}</span>
-                    </td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm dark:text-altum-text-secondary text-light-text-secondary">
-                        <button class="text-altum-accent hover:text-altum-accent-hover view-detail transition-colors font-medium" data-id="${investor.id}">
-                            <i class="fas fa-eye mr-1 text-xs"></i> Ver
-                        </button>
-                    </td>
+    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium dark:text-altum-text-primary text-light-text">${i + 1}</td>
+    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium dark:text-white text-light-text">${investor.username}</td>
+    <td class="px-4 py-4 whitespace-nowrap text-sm font-semibold dark:text-white text-light-text">${formatUSD(investor.balance)}</td>
+    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium ${performanceClass}">
+        <i class="fas ${performanceIcon} mr-1"></i> ${investor.performance}%
+    </td>
+    <td class="px-4 py-4 whitespace-nowrap text-sm font-semibold dark:text-white text-light-text">${formatUSD(investor.initialBalance)}</td>
+    <!-- Código después de Balance Inicial -->
+    <td class="px-4 py-4 whitespace-nowrap text-sm dark:text-altum-text-secondary text-light-text-secondary">${investor.code}</td>
+    <td class="px-4 py-4 whitespace-nowrap text-sm">
+        <span class="status-badge ${statusClass}">${getStatusText(investor.status)}</span>
+    </td>
+    <td class="px-4 py-4 whitespace-nowrap text-sm dark:text-altum-text-secondary text-light-text-secondary">
+        <button class="text-altum-accent hover:text-altum-accent-hover view-detail transition-colors font-medium" data-id="${investor.id}">
+            <i class="fas fa-eye mr-1 text-xs"></i> Ver
+        </button>
+    </td>
+
                 `;
                 tableBody.appendChild(row);
             }
@@ -1476,39 +1457,43 @@ India lanza un ataque con misiles contra Pakistán y escala las tensiones entre 
             document.getElementById('detail-max-lot').textContent = investor.maxLot;
 
             // Renderizar operaciones o mensaje si no hay
-            const operationsTable = document.getElementById('detail-operations');
-            operationsTable.innerHTML = '';
-            
-            if (investor.operations && investor.operations.length > 0) {
-                investor.operations.forEach(op => {
-                    const row = document.createElement('tr');
-                    const resultClass = op.result.includes('Profit') ? 'text-success' : 'text-danger';
-                    const operationClass = op.operation === 'Compra'
-                        ? 'bg-green-900 bg-opacity-40 text-green-300'
-                        : 'bg-red-900 bg-opacity-40 text-red-300';
+const operationsTable = document.getElementById('detail-operations');
+operationsTable.innerHTML = '';
 
-                    row.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium dark:text-altum-text-primary text-light-text">${op.date}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <span class="px-2 py-1 ${operationClass} rounded-full text-xs font-medium">${op.operation}</span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm dark:text-altum-text-secondary text-light-text-secondary">${op.session}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm dark:text-altum-text-secondary text-light-text-secondary">${op.open}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm dark:text-altum-text-secondary text-light-text-secondary">${op.close}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${resultClass}">${op.result}</td>
-                        <td class="px-6 py-4 text-sm dark:text-altum-text-secondary text-light-text-secondary max-w-xs truncate" title="${op.observation}">${op.observation}</td>
-                    `;
-                    operationsTable.appendChild(row);
-                });
-            } else {
-                operationsTable.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="px-6 py-4 text-center text-sm dark:text-altum-text-secondary text-light-text-secondary">
-                            <i class="fas fa-info-circle mr-2"></i> Este inversor no tiene operaciones registradas
-                        </td>
-                    </tr>
-                `;
-            }
+if (investor.operations && investor.operations.length > 0) {
+    investor.operations.forEach(op => {
+        const row = document.createElement('tr');
+        
+        // Modificación aquí: agregar condición especial para DEPOSIT
+        let resultClass, operationClass;
+        
+        if (op.operation === 'DEPOSIT') {
+            resultClass = 'text-success';
+            operationClass = 'bg-green-900 bg-opacity-40 text-green-300';
+        } else if (op.operation === 'WITHDRAWAL') {
+            resultClass = 'text-danger';
+            operationClass = 'bg-red-900 bg-opacity-40 text-red-300';
+        } else {
+            resultClass = op.result.includes('Profit') ? 'text-success' : 'text-danger';
+            operationClass = op.operation === 'Compra' 
+                ? 'bg-green-900 bg-opacity-40 text-green-300' 
+                : 'bg-red-900 bg-opacity-40 text-red-300';
+        }
+
+        row.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium dark:text-altum-text-primary text-light-text">${op.date}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <span class="px-2 py-1 ${operationClass} rounded-full text-xs font-medium">${op.operation}</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm dark:text-altum-text-secondary text-light-text-secondary">${op.session}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm dark:text-altum-text-secondary text-light-text-secondary">${op.open}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm dark:text-altum-text-secondary text-light-text-secondary">${op.close}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${resultClass}">${op.result}</td>
+            <td class="px-6 py-4 text-sm dark:text-altum-text-secondary text-light-text-secondary max-w-xs truncate" title="${op.observation}">${op.observation}</td>
+        `;
+        operationsTable.appendChild(row);
+    });
+}
 
             // Actualizar el gráfico de crecimiento con el rango de tiempo actual
             updateChartForTimeRange(currentTimeRange, investor);
